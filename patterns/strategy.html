@@ -177,7 +177,8 @@ In other words, the abstract specification of the class does not depend on the s
 This is why we call it &quot;Dependency Inversion&quot;.</p>
 <h2><a class="header" href="#motivation" id="motivation">Motivation</a></h2>
 <p>Imagine we are working on a project that generates reports every month.
-We need the reports to be generated in different formats (strategies), e.g., in <code>JSON</code> or <code>Plain Text</code> formats. 
+We need the reports to be generated in different formats (strategies), e.g.,
+in <code>JSON</code> or <code>Plain Text</code> formats.
 But things very and we don't know what kind of requirement we may get in the future.
 For example, we may need to generate our report in a completly new format,
 or just modify the existing format.</p>
@@ -248,7 +249,8 @@ fn main() {
 
 </code></pre></pre>
 <h2><a class="header" href="#advantages" id="advantages">Advantages</a></h2>
-<p>Separation of concerns. In the previous example, Report does not know anything about specific implementations of <code>Json</code> and <code>Text</code>, whereas the output implementations does not care about how data is preprocessed, stored, and fetched. 
+<p>Separation of concerns. In the previous example, Report does not know anything about
+specific implementations of <code>Json</code> and <code>Text</code>, whereas the output implementations does not care about how data is preprocessed, stored, and fetched. 
 The only thing they have to know is context and and a specific trait and method to implement, i.e., <code>Formatter</code> and <code>run</code>.</p>
 <h2><a class="header" href="#disadvantages" id="disadvantages">Disadvantages</a></h2>
 <p>For each strategy there must me implemented at least one module, so number of modules
