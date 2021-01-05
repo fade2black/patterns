@@ -2099,8 +2099,7 @@ impl Report {
 struct Text;
 impl Formatter for Text {
     fn run(&amp;self, data: &amp;Data) -&gt; String {
-        data
-            .iter()
+        data.iter()
             .map(|(key, val)| format!(&quot;{} {}\n&quot;, key, val))
             .collect()
     }
