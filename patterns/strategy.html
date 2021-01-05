@@ -300,10 +300,11 @@ fn main() {
 <p>In fact, Rust already uses this idea for <code>Options</code>'s <code>map</code> method</p>
 <pre><pre class="playground"><code class="language-rust edition2018">fn main() {
     let val = Some(&quot;Rust&quot;);
-    let len_strategy = |s: &amp;str| s.len();
-    let first_byte_strategy = |s: &amp;str| s.bytes().next().unwrap();
 
+    let len_strategy = |s: &amp;str| s.len();
     assert_eq!(4, val.map(len_strategy).unwrap());
+
+    let first_byte_strategy = |s: &amp;str| s.bytes().next().unwrap();
     assert_eq!(82, val.map(first_byte_strategy).unwrap());
 }
 </code></pre></pre>
