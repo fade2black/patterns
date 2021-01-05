@@ -2078,18 +2078,17 @@ while <code>Text</code> and <code>Json</code> are our strategy structs.
 These strategies have to implement the <code>Formatter</code> trait.</p>
 <pre><pre class="playground"><code class="language-rust edition2018">use std::collections::HashMap;
 use std::fmt::Write as FmtWrite;
-use std::{error, result};
-type Result = result::Result&lt;String, Box&lt;dyn error::Error&gt;&gt;;
+use std::error;
 type Data = HashMap&lt;String, u32&gt;;
 
 trait Formatter {
-    fn run(&amp;self, data: &amp;Data) -&gt; Result;
+    fn run(&amp;self, data: &amp;Data) -&gt; Result&lt;String, Box&lt;dyn error::Error&gt;&gt;;
 }
 
 struct Report;
 
 impl Report {
-    fn generate&lt;T: Formatter&gt;(g: T) -&gt; Result {
+    fn generate&lt;T: Formatter&gt;(g: T) -&gt; Result&lt;String, Box&lt;dyn error::Error&gt;&gt; {
         // backend operations...
         let mut data = HashMap::new();
         data.insert(&quot;one&quot;.to_string(), 1);
@@ -2101,7 +2100,7 @@ impl Report {
 
 struct Text;
 impl Formatter for Text {
-    fn run(&amp;self, data: &amp;Data) -&gt; Result {
+    fn run(&amp;self, data: &amp;Data) -&gt; Result&lt;String, Box&lt;dyn error::Error&gt;&gt; {
         let mut s = String::new();
 
         for (key, val) in data {
@@ -2113,7 +2112,7 @@ impl Formatter for Text {
 
 struct Json;
 impl Formatter for Json {
-    fn run(&amp;self, data: &amp;Data) -&gt; Result {
+    fn run(&amp;self, data: &amp;Data) -&gt; Result&lt;String, Box&lt;dyn error::Error&gt;&gt; {
         let mut s = String::from(&quot;[&quot;);
 
         for (key, val) in data {
@@ -2138,9 +2137,11 @@ fn main() {
 }
 </code></pre></pre>
 <h2><a class="header" href="#advantages-19" id="advantages-19">Advantages</a></h2>
-<p>Separation of concerns. In the previous example, Report does not know anything about
-specific implementations of <code>Json</code> and <code>Text</code>, whereas the output implementations does not care about how data is preprocessed, stored, and fetched. 
-The only thing they have to know is context and and a specific trait and method to implement, i.e., <code>Formatter</code> and <code>run</code>.</p>
+<p>Separation of concerns. In the previous example, Report does not know anything about specific
+implementations of <code>Json</code> and <code>Text</code>, whereas the output implementations does not care about how data is
+preprocessed, stored, and fetched.
+The only thing they have to know is context and and a specific trait and method to implement,
+i.e,<code>Formatter</code> and <code>run</code>.</p>
 <h2><a class="header" href="#disadvantages-18" id="disadvantages-18">Disadvantages</a></h2>
 <p>For each strategy there must me implemented at least one module, so number of modules
 increases with number of strategies.
