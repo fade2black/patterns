@@ -187,7 +187,7 @@ or just modify one of the existing formats.</p>
 while <code>Text</code> and <code>Json</code> are our strategy structs.
 These strategies have to implement the <code>Formatter</code> trait.</p>
 <pre><pre class="playground"><code class="language-rust edition2018">use std::collections::HashMap;
-use std::fmt::Write as FmtWrite;
+use std::fmt::Write;
 use std::error::Error;
 type Data = HashMap&lt;String, u32&gt;;
 
