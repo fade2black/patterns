@@ -2066,14 +2066,14 @@ The basic idea behind the Strategy pattern is that, given an algorithm solving a
 In other words, the abstract specification of the class does not depend on the specific implementation of the derived class, but specific implementation must adhere to the abstract specification.
 This is why we call it &quot;Dependency Inversion&quot;.</p>
 <h2><a class="header" href="#motivation-14" id="motivation-14">Motivation</a></h2>
-<p>Imagine we are working on a project that generates reports every month. 
+<p>Imagine we are working on a project that generates reports every month.
 We need the reports to be generated in different formats (strategies), e.g., in <code>JSON</code> or <code>Plain Text</code> formats. 
-But things very and we don't know what kind of requirement we may get in the future. 
-For example, we may need to generate our report in a completly new format, 
+But things very and we don't know what kind of requirement we may get in the future.
+For example, we may need to generate our report in a completly new format,
 or just modify the existing format.</p>
 <h2><a class="header" href="#example-18" id="example-18">Example</a></h2>
-<p>In this example our invariants (or abstractions) are <code>Context</code>, <code>Formatter</code>, and <code>Report</code>. 
-<code>Text</code> and <code>Json</code> are our strategy structs. 
+<p>In this example our invariants (or abstractions) are <code>Context</code>, <code>Formatter</code>, and <code>Report</code>
+<code>Text</code> and <code>Json</code> are our strategy structs.
 These strategies have to implement <code>Formatter</code> trait.</p>
 <pre><pre class="playground"><code class="language-rust edition2018">use std::collections::HashMap;
 use std::fmt::Write as FmtWrite;
@@ -2139,21 +2139,24 @@ fn main() {
 </code></pre></pre>
 <h2><a class="header" href="#advantages-19" id="advantages-19">Advantages</a></h2>
 <p>Separation of concerns. In the previous example, Report does not know anything about specific implementations of <code>Json</code> and <code>Text</code>, whereas the output implementations does not care about how data is preprocessed, stored, and fetched. 
-The only thing they have to know is context and and a specific trait and method to implement, i.e., <code>Formatter</code> and <code>run</code>. </p>
+The only thing they have to know is context and and a specific trait and method to implement, i.e., <code>Formatter</code> and <code>run</code>.</p>
 <h2><a class="header" href="#disadvantages-18" id="disadvantages-18">Disadvantages</a></h2>
-<p>For each strategy there must me implemented at least one module, so number of modules increases with number of strategies.
-If there are many strategies to choose from then users have to know how strategies differ from one another.</p>
+<p>For each strategy there must me implemented at least one module, so number of modules
+increases with number of strategies.
+If there are many strategies to choose from then users have to know how strategies differ
+from one another.</p>
 <h2><a class="header" href="#discussion-12" id="discussion-12">Discussion</a></h2>
 <p>In the previous example all strategies in a single file.
 Ways of providing different strategies includes:</p>
 <ul>
 <li>All in one file (as shown in this example, similar to being separated as modules)</li>
 <li>Separated as modules, E.g. <code>formatter::json</code> module, <code>formatter::text</code> module</li>
-<li>Use compiler feature flags, E.g. <code>json</code> feature, <code>text</code> feature </li>
+<li>Use compiler feature flags, E.g. <code>json</code> feature, <code>text</code> feature</li>
 <li>Separated as crates, E.g. <code>json</code> crate, <code>text</code> crate</li>
 </ul>
 <p>However, we don't need to use traits in order to design this pattern in Rust.</p>
-<p>The following toy example demonstrates the idea of the Strategy pattern using Rust <code>closures</code>:</p>
+<p>The following toy example demonstrates the idea of the Strategy pattern using Rust
+<code>closures</code>:</p>
 <pre><pre class="playground"><code class="language-rust edition2018">struct Adder;
 impl Adder {
     pub fn add&lt;F&gt;(x: u8, y: u8, f: F) -&gt; u8
