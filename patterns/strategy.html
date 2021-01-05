@@ -214,7 +214,8 @@ impl Formatter for Text {
         let mut s = String::new();
 
         for (key, val) in data {
-            write!(&amp;mut s, &quot;{} {}\n&quot;, key, val)?;
+            let entry = format!(&quot;{} {}\n&quot;, key, val);
+            s.push_str(&amp;entry);
         }
         Ok(s)
     }
