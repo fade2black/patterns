@@ -2077,18 +2077,16 @@ or just modify one of the existing formats.</p>
 while <code>Text</code> and <code>Json</code> are our strategy structs.
 These strategies have to implement the <code>Formatter</code> trait.</p>
 <pre><pre class="playground"><code class="language-rust edition2018">use std::collections::HashMap;
-use std::fmt::Write;
-use std::error::Error;
 type Data = HashMap&lt;String, u32&gt;;
 
 trait Formatter {
-    fn run(&amp;self, data: &amp;Data) -&gt; Result&lt;String, Box&lt;dyn Error&gt;&gt;;
+    fn run(&amp;self, data: &amp;Data) -&gt; String;
 }
 
 struct Report;
 
 impl Report {
-    fn generate&lt;T: Formatter&gt;(g: T) -&gt; Result&lt;String, Box&lt;dyn Error&gt;&gt; {
+    fn generate&lt;T: Formatter&gt;(g: T) -&gt; String {
         // backend operations...
         let mut data = HashMap::new();
         data.insert(&quot;one&quot;.to_string(), 1);
@@ -2100,39 +2098,39 @@ impl Report {
 
 struct Text;
 impl Formatter for Text {
-    fn run(&amp;self, data: &amp;Data) -&gt; Result&lt;String, Box&lt;dyn Error&gt;&gt; {
-        let mut s = String::new();
-
-        for (key, val) in data {
-            let entry = format!(&quot;{} {}\n&quot;, key, val);
-            s.push_str(&amp;entry);
-        }
-        Ok(s)
+    fn run(&amp;self, data: &amp;Data) -&gt; String {
+        let s: String = data
+            .iter()
+            .map(|(key, val)| format!(&quot;{} {}\n&quot;, key, val))
+            .collect();
+        return s;
     }
 }
 
 struct Json;
 impl Formatter for Json {
-    fn run(&amp;self, data: &amp;Data) -&gt; Result&lt;String, Box&lt;dyn Error&gt;&gt; {
+    fn run(&amp;self, data: &amp;Data) -&gt; String {
         let mut s = String::from(&quot;[&quot;);
+        let mut entry;
 
         for (key, val) in data {
             if s.len() &gt; 1 {
-                write!(&amp;mut s, &quot;,&quot;)?;
+                s.push(',');
             }
-            write!(&amp;mut s, &quot;{{\&quot;{}\&quot;:\&quot;{}\&quot;}}&quot;, key, val)?;
+            entry = format!(&quot;{{\&quot;{}\&quot;:\&quot;{}\&quot;}}&quot;, key, val);
+            s.push_str(&amp;entry);
         }
-        write!(&amp;mut s, &quot;]&quot;)?;
-        Ok(s)
+        s.push(']');
+        return s;
     }
 }
 
 fn main() {
-    let s = Report::generate(Text).unwrap();
+    let s = Report::generate(Text);
     assert!(s.contains(&quot;one 1&quot;));
     assert!(s.contains(&quot;two 2&quot;));
 
-    let s = Report::generate(Json).unwrap();
+    let s = Report::generate(Json);
     assert!(s.contains(r#&quot;{&quot;one&quot;:&quot;1&quot;}&quot;#));
     assert!(s.contains(r#&quot;{&quot;two&quot;:&quot;2&quot;}&quot;#));
 }
