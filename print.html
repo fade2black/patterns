@@ -2233,6 +2233,10 @@ fn main() {
     assert_eq!(82, val.map(first_byte_strategy).unwrap());
 }
 </code></pre></pre>
+<h2><a class="header" href="#see-also-14" id="see-also-14">See also</a></h2>
+<p><a href="https://en.wikipedia.org/wiki/Strategy_pattern">Strategy Pattern</a></p>
+<p><a href="https://en.wikipedia.org/wiki/Dependency_injection">Dependency Injection</a></p>
+<p><a href="https://en.wikipedia.org/wiki/Modern_C%2B%2B_Design#Policy-based_design">Policy Based Design</a></p>
 <h1><a class="header" href="#contain-unsafety-in-small-modules" id="contain-unsafety-in-small-modules">Contain unsafety in small modules</a></h1>
 <h2><a class="header" href="#description-26" id="description-26">Description</a></h2>
 <p>If you have <code>unsafe</code> code, create the smallest possible module that can uphold the needed invariants to build a minimal safe interface upon the unsafety.
@@ -2256,7 +2260,7 @@ Users may use this to gain speed benefits.</p>
 The operations on <code>String</code> ensure this behavior.
 However, users have the option of using an <code>unsafe</code> method to create a <code>String</code>, in which case the onus is on them to guarantee the validity of the contents.</li>
 </ul>
-<h2><a class="header" href="#see-also-14" id="see-also-14">See also</a></h2>
+<h2><a class="header" href="#see-also-15" id="see-also-15">See also</a></h2>
 <ul>
 <li><a href="https://www.ralfj.de/blog/2018/08/22/two-kinds-of-invariants.html">Ralf Jung's Blog about invariants in unsafe code</a></li>
 </ul>
@@ -2350,7 +2354,7 @@ example,</p>
 </code></pre>
 <p>In other languages (e.g., Java) it is common for data to have an <code>accept</code> method
 which performs the same duty.</p>
-<h2><a class="header" href="#see-also-15" id="see-also-15">See also</a></h2>
+<h2><a class="header" href="#see-also-16" id="see-also-16">See also</a></h2>
 <p>The visitor pattern is a common pattern in most OO languages.</p>
 <p><a href="https://en.wikipedia.org/wiki/Visitor_pattern">Wikipedia article</a></p>
 <p>The <a href="patterns/fold.html">fold</a> pattern is similar to visitor but produces a new version of
@@ -2443,7 +2447,7 @@ Here is a list of warning lints that is (hopefully) safe to deny:</p>
 <p>Some may also want to add <code>missing-copy-implementations</code> to their list.</p>
 <p>Note that we explicitly did not add the <code>deprecated</code> lint, as it is fairly
 certain that there will be more deprecated APIs in the future.</p>
-<h2><a class="header" href="#see-also-16" id="see-also-16">See also</a></h2>
+<h2><a class="header" href="#see-also-17" id="see-also-17">See also</a></h2>
 <ul>
 <li><a href="https://doc.rust-lang.org/reference/attributes.html#deprecation">deprecate attribute</a> documentation</li>
 <li>Type <code>rustc -W help</code> for a list of lints on your system. Also type
@@ -2548,7 +2552,7 @@ favouring explicit conversions between types. Automatic dereferencing in the dot
 operator is a case where the ergonomics strongly favour an implicit mechanism,
 but the intention is that this is limited to degrees of indirection, not
 conversion between arbitrary types.</p>
-<h2><a class="header" href="#see-also-17" id="see-also-17">See also</a></h2>
+<h2><a class="header" href="#see-also-18" id="see-also-18">See also</a></h2>
 <p><a href="anti_patterns/../idioms/deref.html">Collections are smart pointers idiom</a>.</p>
 <p><a href="https://doc.rust-lang.org/std/ops/trait.Deref.html">Documentation for <code>Deref</code> trait</a>.</p>
 <h1><a class="header" href="#functional-usage-of-rust" id="functional-usage-of-rust">Functional Usage of Rust</a></h1>
