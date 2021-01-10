@@ -2094,11 +2094,15 @@ an HTTP client that uses <code>url:0.5</code> would not accept <code>Url</code> 
 </ul>
 <h1><a class="header" href="#strategy-aka-policy" id="strategy-aka-policy">Strategy (aka Policy)</a></h1>
 <h2><a class="header" href="#description-25" id="description-25">Description</a></h2>
-<p>The <a href="https://en.wikipedia.org/wiki/Strategy_pattern">Strategy design pattern</a> is a technique that enables separation of concerns in object-oriented software design.
+<p>The <a href="https://en.wikipedia.org/wiki/Strategy_pattern">Strategy design pattern</a>
+is a technique that enables separation of concerns in object-oriented software design.
 It also allows to decouple software modules through <a href="https://en.wikipedia.org/wiki/Dependency_inversion_principle">Dependency Inversion</a>.
-The basic idea behind the Strategy pattern is that, given an algorithm solving a particular problem, we define only the skeleton of the algorithm at an abstract level and we delegate the specific algorithm’s implementation (or some of its parts) to another class or method.</p>
+The basic idea behind the Strategy pattern is that, given an algorithm solving a particular problem,
+we define only the skeleton of the algorithm at an abstract level and
+we delegate the specific algorithm’s implementation (or some of its parts) to another class or method.</p>
 <p>In this way, a client using the algorithm may choose a specific implementation, while the general algorithm workflow remains the same.
-In other words, the abstract specification of the class does not depend on the specific implementation of the derived class, but specific implementation must adhere to the abstract specification.
+In other words, the abstract specification of the class does not depend on the specific implementation of the derived class,
+but specific implementation must adhere to the abstract specification.
 This is why we call it &quot;Dependency Inversion&quot;.</p>
 <h2><a class="header" href="#motivation-14" id="motivation-14">Motivation</a></h2>
 <p>Imagine we are working on a project that generates reports every month.
