@@ -2195,7 +2195,7 @@ Ways of providing different strategies includes:</p>
 </ul>
 <p>Serde crate is a good example of the <code>Strategy</code> pattern in action. Serde allows <a href="https://serde.rs/custom-serialization.html">full customization</a>
 of the serialization behavior by manually implementing <code>Serialize</code> and <code>Deserialize</code> traits for our type.
-For example, we could easily swap <code>serde_json</code> with <code>serde_cbor</code> since they expose a similar method.
+For example, we could easily swap <code>serde_json</code> with <code>serde_cbor</code> since they expose similar methods.
 Having this makes the helper crate <code>serde_transcode</code> much more useful and ergonomic.</p>
 <p>However, we don't need to use traits in order to design this pattern in Rust.</p>
 <p>The following toy example demonstrates the idea of the Strategy pattern using Rust
