@@ -194,7 +194,7 @@ These strategies have to implement the <code>Formatter</code> trait.</p>
 type Data = HashMap&lt;String, u32&gt;;
 
 trait Formatter {
-    fn run(&amp;self, data: &amp;Data) -&gt; String;
+    fn format(&amp;self, data: &amp;Data) -&gt; String;
 }
 
 struct Report;
@@ -206,13 +206,13 @@ impl Report {
         data.insert(&quot;one&quot;.to_string(), 1);
         data.insert(&quot;two&quot;.to_string(), 2);
         // generate report
-        g.run(&amp;data)
+        g.format(&amp;data)
     }
 }
 
 struct Text;
 impl Formatter for Text {
-    fn run(&amp;self, data: &amp;Data) -&gt; String {
+    fn format(&amp;self, data: &amp;Data) -&gt; String {
         data.iter()
             .map(|(key, val)| format!(&quot;{} {}\n&quot;, key, val))
             .collect()
@@ -221,16 +221,15 @@ impl Formatter for Text {
 
 struct Json;
 impl Formatter for Json {
-    fn run(&amp;self, data: &amp;Data) -&gt; String {
+    fn format(&amp;self, data: &amp;Data) -&gt; String {
         let mut s = String::from(&quot;[&quot;);
         let mut iter = data.into_iter();
-                            
-        if let Some((key, val)) = data.next() {
-            let entry = format!(r#&quot;{&quot;{}&quot;:&quot;{}&quot;}&quot;#, key, val);
+        if let Some((key, val)) = iter.next() {
+            let entry = format!(r#&quot;{{&quot;{}&quot;:&quot;{}&quot;}}&quot;#, key, val);
             s.push_str(&amp;entry);
-            while let Some((key, val)) = data.next() {
-                s.push(',');   
-                let entry = format!(r#&quot;{&quot;{}&quot;:&quot;{}&quot;}&quot;#, key, val);
+            while let Some((key, val)) = iter.next() {
+                s.push(',');
+                let entry = format!(r#&quot;{{&quot;{}&quot;:&quot;{}&quot;}}&quot;#, key, val);
                 s.push_str(&amp;entry);
             }
         }
