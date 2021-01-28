@@ -223,7 +223,7 @@ term -&gt; 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
 to do with the grammar. For example, we might need to remove left recursion.
 For more details please see <a href="https://en.wikipedia.org/wiki/Compilers:_Principles,_Techniques,_and_Tools">Compilers:Principles,Techniques, and Tools</a>
 (aka Dragon Book).</p>
-<h2><a class="header" href="#solution-1" id="solution-1">Solution 1</a></h2>
+<h2><a class="header" href="#solution" id="solution">Solution</a></h2>
 <p>Our first approach is a standard one, simple implementation of a recursive descent
 parser. The code panics when an expression is syntactically wrong
 (for exmple <code>2-34</code> or <code>2+5-</code> are wrong according to the grammar definition).</p>
@@ -276,99 +276,12 @@ pub fn main() {
     postfix = String::new();
     intr = Interpreter::new(&amp;infix);
     intr.interpret(&amp;mut postfix);
-
     assert_eq!(postfix, &quot;12-3+4-&quot;);
 }
 </code></pre></pre>
-<h2><a class="header" href="#solution-2" id="solution-2">Solution 2</a></h2>
-<p>The second approach is using Rust's <code>macro_rules!</code>. We simply define rules and
-leave the rest to Rust's interpretation of these rules wich converts a given
-expression into corresponding assembly code.</p>
-<pre><pre class="playground"><code class="language-rust edition2018">fn print_op(op: &amp;str) {
-    println!(&quot;pop ebx&quot;);
-    println!(&quot;pop eax&quot;);
-    println!(&quot;{} eax,ebx&quot;, op);
-    println!(&quot;push eax&quot;);
-}
-
-macro_rules! term {
-    ($x:tt * $($tail:tt)+) =&gt; {
-        term!($x);
-        term!($($tail)+);
-        print_op(&quot;mul&quot;);
-    };
-
-    ($x:tt / $($tail:tt)+) =&gt; {
-        term!($x);
-        term!($($tail)+);
-        print_op(&quot;div&quot;);
-    };
-
-    ($x:ident) =&gt; {
-        println!(&quot;push {}&quot;, $x);
-    };
-    ($x:literal) =&gt; {
-        println!(&quot;push {}&quot;, $x);
-    };
-    (($($x:tt)*)) =&gt; {
-        to_asm!($($x)*);
-    };
-}
-
-macro_rules! to_asm {
-    ($x:tt + $($tail:tt)+) =&gt; {
-        to_asm!($x);
-        to_asm!($($tail)+);
-        print_op(&quot;add&quot;);
-    };
-
-    ($x:tt - $($tail:tt)+) =&gt; {
-        to_asm!($x);
-        to_asm!($($tail)+);
-        print_op(&quot;sub&quot;);
-    };
-
-    ($($x:tt)*) =&gt; {
-        term!($($x)*);
-    };
-}
-
-fn main() {
-    let a = 3;
-    to_asm!((2 * 3) - 5);
-    println!(&quot;-------------------&quot;);
-    to_asm!(2 * (a - 5));
-}
-</code></pre></pre>
-<p>Output</p>
-<pre><code class="language-ignore">push 2
-push 3
-pop ebx
-pop eax
-mul eax,ebx
-push eax
-push 5
-pop ebx
-pop eax
-sub eax,ebx
-push eax
--------------------
-push 2
-push 3
-push 5
-pop ebx
-pop eax
-sub eax,ebx
-push eax
-pop ebx
-pop eax
-mul eax,ebx
-push eax
-</code></pre>
 <h2><a class="header" href="#see-also" id="see-also">See also</a></h2>
 <ul>
 <li><a href="https://en.wikipedia.org/wiki/Interpreter_pattern">Interpreter pattern</a></li>
-<li><a href="https://doc.rust-lang.org/rust-by-example/macros.html">macro_rules!</a></li>
 <li><a href="https://en.wikipedia.org/wiki/Context-free_grammar">Contex free grammar</a></li>
 </ul>
 
