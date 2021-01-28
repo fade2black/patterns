@@ -1,0 +1,515 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js rust">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Interpreter - Rust Design Patterns</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="A catalogue of Rust design patterns, anti-patterns and idioms">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="../favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="../favicon.png">
+        
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "rust";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('rust')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../intro.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="../idioms/index.html"><strong aria-hidden="true">2.</strong> Idioms</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../idioms/coercion-arguments.html"><strong aria-hidden="true">2.1.</strong> Use borrowed types for arguments</a></li><li class="chapter-item expanded "><a href="../idioms/concat-format.html"><strong aria-hidden="true">2.2.</strong> Concatenating Strings with format!</a></li><li class="chapter-item expanded "><a href="../idioms/ctor.html"><strong aria-hidden="true">2.3.</strong> Constructor</a></li><li class="chapter-item expanded "><a href="../idioms/default.html"><strong aria-hidden="true">2.4.</strong> The Default Trait</a></li><li class="chapter-item expanded "><a href="../idioms/deref.html"><strong aria-hidden="true">2.5.</strong> Collections Are Smart Pointers</a></li><li class="chapter-item expanded "><a href="../idioms/dtor-finally.html"><strong aria-hidden="true">2.6.</strong> Finalisation in Destructors</a></li><li class="chapter-item expanded "><a href="../idioms/mem-replace.html"><strong aria-hidden="true">2.7.</strong> mem::{take(), replace()}</a></li><li class="chapter-item expanded "><a href="../idioms/on-stack-dyn-dispatch.html"><strong aria-hidden="true">2.8.</strong> On-Stack Dynamic Dispatch</a></li><li class="chapter-item expanded "><a href="../idioms/ffi-intro.html"><strong aria-hidden="true">2.9.</strong> Foreign function interface usage</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../idioms/ffi-errors.html"><strong aria-hidden="true">2.9.1.</strong> Idiomatic Errors</a></li><li class="chapter-item expanded "><a href="../idioms/ffi-accepting-strings.html"><strong aria-hidden="true">2.9.2.</strong> Accepting Strings</a></li><li class="chapter-item expanded "><a href="../idioms/ffi-passing-strings.html"><strong aria-hidden="true">2.9.3.</strong> Passing Strings</a></li></ol></li><li class="chapter-item expanded "><a href="../idioms/option-iter.html"><strong aria-hidden="true">2.10.</strong> Iterating over an Option</a></li><li class="chapter-item expanded "><a href="../idioms/pass-var-to-closure.html"><strong aria-hidden="true">2.11.</strong> Pass Variables to Closure</a></li><li class="chapter-item expanded "><a href="../idioms/priv-extend.html"><strong aria-hidden="true">2.12.</strong> Privacy For Extensibility</a></li><li class="chapter-item expanded "><a href="../idioms/rustdoc-init.html"><strong aria-hidden="true">2.13.</strong> Easy doc initialization</a></li><li class="chapter-item expanded "><a href="../idioms/temporary-mutability.html"><strong aria-hidden="true">2.14.</strong> Temporary mutability</a></li></ol></li><li class="chapter-item expanded "><a href="../patterns/index.html"><strong aria-hidden="true">3.</strong> Design Patterns</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../patterns/builder.html"><strong aria-hidden="true">3.1.</strong> Builder</a></li><li class="chapter-item expanded "><a href="../patterns/compose-structs.html"><strong aria-hidden="true">3.2.</strong> Compose Structs</a></li><li class="chapter-item expanded "><a href="../patterns/entry.html"><strong aria-hidden="true">3.3.</strong> Entry API</a></li><li class="chapter-item expanded "><a href="../patterns/ffi-intro.html"><strong aria-hidden="true">3.4.</strong> Foreign function interface usage</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../patterns/ffi-export.html"><strong aria-hidden="true">3.4.1.</strong> Object-Based APIs</a></li><li class="chapter-item expanded "><a href="../patterns/ffi-wrappers.html"><strong aria-hidden="true">3.4.2.</strong> Type Consolidation into Wrappers</a></li></ol></li><li class="chapter-item expanded "><a href="../patterns/fold.html"><strong aria-hidden="true">3.5.</strong> Fold</a></li><li class="chapter-item expanded "><a href="../patterns/interpreter.html" class="active"><strong aria-hidden="true">3.6.</strong> Interpreter</a></li><li class="chapter-item expanded "><a href="../patterns/newtype.html"><strong aria-hidden="true">3.7.</strong> Newtype</a></li><li class="chapter-item expanded "><a href="../patterns/RAII.html"><strong aria-hidden="true">3.8.</strong> RAII Guards</a></li><li class="chapter-item expanded "><a href="../patterns/small-crates.html"><strong aria-hidden="true">3.9.</strong> Prefer Small Crates</a></li><li class="chapter-item expanded "><a href="../patterns/strategy.html"><strong aria-hidden="true">3.10.</strong> Strategy</a></li><li class="chapter-item expanded "><a href="../patterns/unsafe-mods.html"><strong aria-hidden="true">3.11.</strong> Contain unsafety in small modules</a></li><li class="chapter-item expanded "><a href="../patterns/visitor.html"><strong aria-hidden="true">3.12.</strong> Visitor</a></li></ol></li><li class="chapter-item expanded "><a href="../anti_patterns/index.html"><strong aria-hidden="true">4.</strong> Anti-patterns</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../anti_patterns/deny-warnings.html"><strong aria-hidden="true">4.1.</strong> #[deny(warnings)]</a></li><li class="chapter-item expanded "><a href="../anti_patterns/deref.html"><strong aria-hidden="true">4.2.</strong> Deref Polymorphism</a></li></ol></li><li class="chapter-item expanded "><a href="../functional/index.html"><strong aria-hidden="true">5.</strong> Functional Programming</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../functional/paradigms.html"><strong aria-hidden="true">5.1.</strong> Programming paradigms</a></li></ol></li><li class="chapter-item expanded "><a href="../additional_resources/index.html"><strong aria-hidden="true">6.</strong> Additional Resources</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../additional_resources/design-principles.html"><strong aria-hidden="true">6.1.</strong> Design principles</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">Rust Design Patterns</h1>
+
+                    <div class="right-buttons">
+                        
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        
+                        <a href="https://github.com/rust-unofficial/patterns" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#interpreter" id="interpreter">Interpreter</a></h1>
+<h2><a class="header" href="#description" id="description">Description</a></h2>
+<p>If a problem occurs very often and requires long and repetitive steps to solve
+it, then the problem instances might be expressed in a simple language and an
+interpreter object could solve it by interpreting the sentences written in this
+simple language. Basically, for any kind of problems we define a domain language,
+then define a grammar for this language and design interpreter solving problem
+instances.</p>
+<h2><a class="header" href="#motivation" id="motivation">Motivation</a></h2>
+<p>Imagine that our work is translating simple mathematical expressions into
+<a href="https://en.wikipedia.org/wiki/Assembly_language">assembly language</a>
+(more simple and low level programming language).
+For simplicity, our expressions consists of ten digits <code>0</code>,...,<code>9</code>,
+four operations <code>+, -, /, *</code> and a pair of parenthesis <code>(, )</code>.
+For example, expression <code>2 + 4</code> could be translated into</p>
+<pre><code class="language-ignore">mov eax, 2
+mov ebx, 4
+add eax, ebx
+</code></pre>
+<p>Our goal is to automate translating into assembly instructions using the
+Interpreter design pattern. In other words, we want simply provide the
+Interpreter with an expression and get Assembly language output.</p>
+<p>For example:</p>
+<pre><code class="language-rust ignore">x.interpret(&quot;7+3*(2-1)&quot;, &amp;output);
+</code></pre>
+<h2><a class="header" href="#context-free-grammars" id="context-free-grammars">Context Free Grammars</a></h2>
+<p>In order to understand the Interpreter pattern you need to know a little bit
+about formal language theory. If you already know what a grammar is feel free
+to skip this section, otherwise fasten your seat belts.</p>
+<p>Basicaly, a <a href="https://en.wikipedia.org/wiki/Context-free_grammar">Context Free Grammar</a>
+(CFG) defines a set of rules that describe all possible strings over some finite
+set of symbols, formally called alphabet. These strings usually have some well
+defined structure. For example, strings of all balanced parentheses:</p>
+<pre><code class="language-ignore">(), (()), ()(), ()(()), ..
+</code></pre>
+<p>Formally a CFG consists of terminal symbols, nonterminal symbols, a start (nonterminal)
+symbol, and production rules.</p>
+<p>In the previous example we have two terminal symbols <code>(</code> and <code>)</code>. We define a
+single nonterminal (at the same time the start) symbol <code>S</code> and production rules
+as:</p>
+<pre><code class="language-ignore">S -&gt; SS
+S -&gt; (S)
+S -&gt; ()
+</code></pre>
+<p>So, in order to generate a string with balanced parentheses we repeatedly apply
+production rules. For example, to derive <code>()()</code> we apply the following rules:</p>
+<pre><code class="language-ignore">S -&gt; SS -&gt; ()(S) -&gt; ()()
+</code></pre>
+<p>Next, let's define a context free grammar for a set of expressions over
+<code>0,...,9, +,-,*,/,(,)</code>, where</p>
+<ul>
+<li>terminal symbols: <code>0,...,9, +,-,*,/,(,)</code></li>
+<li>nonterminal symbols: <code>exp, term, factor</code></li>
+<li>start symbol is <code>exp</code></li>
+<li>and the following are production rules</li>
+</ul>
+<pre><code class="language-ignore">exp -&gt; exp + term
+exp -&gt; exp - term
+exp -&gt; term
+term -&gt; term * factor
+term -&gt; term / factor
+term -&gt; factor
+factor -&gt; ( exp )
+factor -&gt; 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+</code></pre>
+<p>In fact this grammar should be further transformed depending on what we are going
+to do with the grammar. For example, we might need to remove left recursion.
+For more details please see <a href="https://en.wikipedia.org/wiki/Compilers:_Principles,_Techniques,_and_Tools">Compilers:Principles,Techniques, and Tools</a>
+(aka Dragon Book).</p>
+<h2><a class="header" href="#solution-1" id="solution-1">Solution 1</a></h2>
+<p>Our first approach is a standard one, simple implementation of a recursive descent
+parser. The following code doesn't have <code>struct</code> abstraction in order to keep
+code short. Furthermore, the code panics when an expression is syntactically wrong
+(unbalanced parentheses or missing digit/operator for example).</p>
+<pre><pre class="playground"><code class="language-rust edition2018">fn token(input: &amp;[u8], index: usize) -&gt; char {
+    if index &lt; input.len() {
+        input[index] as char
+    } else {
+        '$' // End of line
+    }
+}
+
+fn single_expr(input: &amp;[u8], out: &amp;mut Vec&lt;String&gt;) {
+    let mut index: usize = 0;
+
+    expr(input, &amp;mut index, out);
+
+    let ch = token(input, index);
+    if ch != '$' {
+        panic!(&quot;Unexpected symbol '{}', at {}&quot;, ch, index);
+    }
+}
+
+fn expr(input: &amp;[u8], index: &amp;mut usize, out: &amp;mut Vec&lt;String&gt;) {
+    term(input, index, out);
+
+    loop {
+        let ch = token(input, *index);
+        if ch == '$' || (ch != '+' &amp;&amp; ch != '-') {
+            break;
+        } else {
+            *index += 1;
+            term(input, index, out);
+            translate(ch, out);
+        }
+    }
+}
+
+fn term(input: &amp;[u8], index: &amp;mut usize, out: &amp;mut Vec&lt;String&gt;) {
+    factor(input, index, out);
+
+    loop {
+        let ch = token(input, *index);
+        if ch == '$' || (ch != '*' &amp;&amp; ch != '/') {
+            break;
+        } else {
+            *index += 1;
+            factor(input, index, out);
+            translate(ch, out);
+        }
+    }
+}
+
+fn factor(input: &amp;[u8], index: &amp;mut usize, out: &amp;mut Vec&lt;String&gt;) {
+    let ch = token(input, *index);
+
+    if ch.is_digit(10) {
+        out.push(format!(&quot;push {}&quot;, ch));
+    } else if ch == '(' {
+        *index += 1;
+        expr(input, index, out);
+
+        let ch = token(input, *index);
+        if ch != ')' {
+            panic!(&quot;Missing ')' at {}&quot;, *index);
+        }
+    } else {
+        panic!(&quot;Unexpected symbol '{}', at {}&quot;, ch, *index);
+    }
+
+    *index += 1;
+}
+
+fn translate(ch: char, out: &amp;mut Vec&lt;String&gt;) {
+    out.push(String::from(&quot;pop ebx&quot;));
+    out.push(String::from(&quot;pop eax&quot;));
+    out.push(format!(&quot;{} eax, ebx&quot;, to_oper(ch)));
+    out.push(String::from(&quot;push eax&quot;));
+}
+
+fn to_oper(ch: char) -&gt; String {
+    match ch {
+        '+' =&gt; return String::from(&quot;add&quot;),
+        '-' =&gt; return String::from(&quot;sub&quot;),
+        '*' =&gt; return String::from(&quot;mul&quot;),
+        '/' =&gt; return String::from(&quot;div&quot;),
+        _ =&gt; panic!(&quot;Invalid operator '{}'&quot;, ch),
+    }
+}
+
+pub fn main() {
+    let mut out = vec![];
+    let exp = b&quot;2/(7-3)&quot;;
+
+    single_expr(exp, &amp;mut out);
+    assert_eq!(
+        out,
+        vec![
+            &quot;push 2&quot;,
+            &quot;push 7&quot;,
+            &quot;push 3&quot;,
+            &quot;pop ebx&quot;,
+            &quot;pop eax&quot;,
+            &quot;sub eax, ebx&quot;,
+            &quot;push eax&quot;,
+            &quot;pop ebx&quot;,
+            &quot;pop eax&quot;,
+            &quot;div eax, ebx&quot;,
+            &quot;push eax&quot;,
+        ]
+    );
+}
+</code></pre></pre>
+<h2><a class="header" href="#solution-2" id="solution-2">Solution 2</a></h2>
+<p>The second approach is using Rust's <code>macro_rules!</code>. We simply define rules and
+leave the rest to Rust's interpretation of these rules wich converts a given
+expression into corresponding assembly code. However, we have to make compromises
+on the input syntax to make using standard repetitions of <code>macro_rules!</code> more
+tractable. In the following example, we have to write <code>(2 * 3) - 5</code> instead
+of <code>2 * 3 - 5</code>.</p>
+<pre><pre class="playground"><code class="language-rust edition2018">fn print_op(op: &amp;str) {
+    println!(&quot;pop ebx&quot;);
+    println!(&quot;pop eax&quot;);
+    println!(&quot;{} eax,ebx&quot;, op);
+    println!(&quot;push eax&quot;);
+}
+
+macro_rules! term {
+    ($x:tt * $($tail:tt)+) =&gt; {
+        term!($x);
+        term!($($tail)+);
+        print_op(&quot;mul&quot;);
+    };
+
+    ($x:tt / $($tail:tt)+) =&gt; {
+        term!($x);
+        term!($($tail)+);
+        print_op(&quot;div&quot;);
+    };
+
+    ($x:ident) =&gt; {
+        println!(&quot;push {}&quot;, $x);
+    };
+    ($x:literal) =&gt; {
+        println!(&quot;push {}&quot;, $x);
+    };
+    (($($x:tt)*)) =&gt; {
+        to_asm!($($x)*);
+    };
+}
+
+macro_rules! to_asm {
+    ($x:tt + $($tail:tt)+) =&gt; {
+        to_asm!($x);
+        to_asm!($($tail)+);
+        print_op(&quot;add&quot;);
+    };
+
+    ($x:tt - $($tail:tt)+) =&gt; {
+        to_asm!($x);
+        to_asm!($($tail)+);
+        print_op(&quot;sub&quot;);
+    };
+
+    ($($x:tt)*) =&gt; {
+        term!($($x)*);
+    };
+}
+
+fn main() {
+    let a = 3;
+    to_asm!((2 * 3) - 5);
+    println!(&quot;-------------------&quot;);
+    to_asm!(2 * (a - 5));
+}
+</code></pre></pre>
+<p>Output</p>
+<pre><code class="language-ignore">push 2
+push 3
+pop ebx
+pop eax
+mul eax,ebx
+push eax
+push 5
+pop ebx
+pop eax
+sub eax,ebx
+push eax
+-------------------
+push 2
+push 3
+push 5
+pop ebx
+pop eax
+sub eax,ebx
+push eax
+pop ebx
+pop eax
+mul eax,ebx
+push eax
+</code></pre>
+<h2><a class="header" href="#see-also" id="see-also">See also</a></h2>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Interpreter_pattern">Interpreter pattern</a></li>
+<li><a href="https://doc.rust-lang.org/rust-by-example/macros.html">macro_rules!</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Context-free_grammar">Contex free grammar</a></li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="../patterns/fold.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="../patterns/newtype.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="../patterns/fold.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="../patterns/newtype.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>
