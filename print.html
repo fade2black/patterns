@@ -2030,22 +2030,11 @@ simple language. Basically, for any kind of problems we define a domain language
 then define a grammar for this language and design interpreter solving problem
 instances.</p>
 <h2><a class="header" href="#motivation-12" id="motivation-12">Motivation</a></h2>
-<p>Imagine that our work is translating simple mathematical expressions into
-<a href="https://en.wikipedia.org/wiki/Assembly_language">assembly language</a>
-(more simple and low level programming language).
+<p>Our goal is translate simple mathematical expressions into
+postfix expressions (or <a href="https://en.wikipedia.org/wiki/Reverse_Polish_notation">Reverse Polish notation</a>)
 For simplicity, our expressions consists of ten digits <code>0</code>,...,<code>9</code>,
-four operations <code>+, -, /, *</code> and a pair of parenthesis <code>(, )</code>.
-For example, expression <code>2 + 4</code> could be translated into</p>
-<pre><code class="language-ignore">mov eax, 2
-mov ebx, 4
-add eax, ebx
-</code></pre>
-<p>Our goal is to automate translating into assembly instructions using the
-Interpreter design pattern. In other words, we want simply provide the
-Interpreter with an expression and get Assembly language output.</p>
-<p>For example:</p>
-<pre><code class="language-rust ignore">x.interpret(&quot;7+3*(2-1)&quot;, &amp;output);
-</code></pre>
+and two operations <code>+, -</code> and a pair of parenthesis.
+For example, expression <code>2 + 4</code> could is translated into <code>2 4 +</code>.</p>
 <h2><a class="header" href="#context-free-grammars" id="context-free-grammars">Context Free Grammars</a></h2>
 <p>In order to understand the Interpreter pattern you need to know a little bit
 about formal language theory. If you already know what a grammar is feel free
@@ -2069,22 +2058,20 @@ S -&gt; ()
 production rules. For example, to derive <code>()()</code> we apply the following rules:</p>
 <pre><code class="language-ignore">S -&gt; SS -&gt; ()(S) -&gt; ()()
 </code></pre>
-<p>Next, let's define a context free grammar for a set of expressions over
-<code>0,...,9, +,-,*,/,(,)</code>, where</p>
+<h2><a class="header" href="#context-free-grammar-for-our-problem" id="context-free-grammar-for-our-problem">Context Free Grammar for our problem</a></h2>
+<p>Recal that our task is translate infix expressions into postfex ones.
+Let's define a context free grammar for a set of expressions over
+<code>0,...,9, +,-</code>, where</p>
 <ul>
-<li>terminal symbols: <code>0,...,9, +,-,*,/,(,)</code></li>
-<li>nonterminal symbols: <code>exp, term, factor</code></li>
+<li>terminal symbols: <code>0,...,9, +,-</code></li>
+<li>nonterminal symbols: <code>exp, term</code></li>
 <li>start symbol is <code>exp</code></li>
 <li>and the following are production rules</li>
 </ul>
 <pre><code class="language-ignore">exp -&gt; exp + term
 exp -&gt; exp - term
 exp -&gt; term
-term -&gt; term * factor
-term -&gt; term / factor
-term -&gt; factor
-factor -&gt; ( exp )
-factor -&gt; 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+term -&gt; 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
 </code></pre>
 <p>In fact this grammar should be further transformed depending on what we are going
 to do with the grammar. For example, we might need to remove left recursion.
@@ -2092,125 +2079,65 @@ For more details please see <a href="https://en.wikipedia.org/wiki/Compilers:_Pr
 (aka Dragon Book).</p>
 <h2><a class="header" href="#solution-1" id="solution-1">Solution 1</a></h2>
 <p>Our first approach is a standard one, simple implementation of a recursive descent
-parser. The following code doesn't have <code>struct</code> abstraction in order to keep
-code short. Furthermore, the code panics when an expression is syntactically wrong
-(unbalanced parentheses or missing digit/operator for example).</p>
-<pre><pre class="playground"><code class="language-rust edition2018">fn token(input: &amp;[u8], index: usize) -&gt; char {
-    if index &lt; input.len() {
-        input[index] as char
-    } else {
-        '$' // End of line
-    }
+parser. The code panics when an expression is syntactically wrong
+(for exmple <code>2-34</code> or <code>2+5-</code> are wrong according to the grammar definition).</p>
+<pre><pre class="playground"><code class="language-rust edition2018">struct Interpreter&lt;'a&gt; {
+    it: std::str::Chars&lt;'a&gt;,
 }
-
-fn single_expr(input: &amp;[u8], out: &amp;mut Vec&lt;String&gt;) {
-    let mut index: usize = 0;
-
-    expr(input, &amp;mut index, out);
-
-    let ch = token(input, index);
-    if ch != '$' {
-        panic!(&quot;Unexpected symbol '{}', at {}&quot;, ch, index);
+impl&lt;'a&gt; Interpreter&lt;'a&gt; {
+    pub fn new(infix: &amp;'a String) -&gt; Self {
+        Self { it: infix.chars() }
     }
-}
 
-fn expr(input: &amp;[u8], index: &amp;mut usize, out: &amp;mut Vec&lt;String&gt;) {
-    term(input, index, out);
+    pub fn interpret(&amp;mut self, out: &amp;mut String) {
+        self.exp(out);
+    }
 
-    loop {
-        let ch = token(input, *index);
-        if ch == '$' || (ch != '+' &amp;&amp; ch != '-') {
-            break;
-        } else {
-            *index += 1;
-            term(input, index, out);
-            translate(ch, out);
+    fn next_char(&amp;mut self) -&gt; Option&lt;char&gt; {
+        self.it.next()
+    }
+
+    fn exp(&amp;mut self, out: &amp;mut String) {
+        self.term(out);
+
+        while let Some(op) = self.next_char() {
+            if op == '+' || op == '-' {
+                self.term(out);
+                out.push(op);
+            } else {
+                panic!(&quot;Unexpected symbol '{}'&quot;, op);
+            }
         }
     }
-}
 
-fn term(input: &amp;[u8], index: &amp;mut usize, out: &amp;mut Vec&lt;String&gt;) {
-    factor(input, index, out);
-
-    loop {
-        let ch = token(input, *index);
-        if ch == '$' || (ch != '*' &amp;&amp; ch != '/') {
-            break;
-        } else {
-            *index += 1;
-            factor(input, index, out);
-            translate(ch, out);
+    fn term(&amp;mut self, out: &amp;mut String) {
+        match self.next_char() {
+            Some(ch) if ch.is_digit(10) =&gt; out.push(ch),
+            Some(ch) =&gt; panic!(&quot;Unexpected symbol '{}'&quot;, ch),
+            None =&gt; panic!(&quot;Unexpected end of string&quot;),
         }
-    }
-}
-
-fn factor(input: &amp;[u8], index: &amp;mut usize, out: &amp;mut Vec&lt;String&gt;) {
-    let ch = token(input, *index);
-
-    if ch.is_digit(10) {
-        out.push(format!(&quot;push {}&quot;, ch));
-    } else if ch == '(' {
-        *index += 1;
-        expr(input, index, out);
-
-        let ch = token(input, *index);
-        if ch != ')' {
-            panic!(&quot;Missing ')' at {}&quot;, *index);
-        }
-    } else {
-        panic!(&quot;Unexpected symbol '{}', at {}&quot;, ch, *index);
-    }
-
-    *index += 1;
-}
-
-fn translate(ch: char, out: &amp;mut Vec&lt;String&gt;) {
-    out.push(String::from(&quot;pop ebx&quot;));
-    out.push(String::from(&quot;pop eax&quot;));
-    out.push(format!(&quot;{} eax, ebx&quot;, to_oper(ch)));
-    out.push(String::from(&quot;push eax&quot;));
-}
-
-fn to_oper(ch: char) -&gt; String {
-    match ch {
-        '+' =&gt; return String::from(&quot;add&quot;),
-        '-' =&gt; return String::from(&quot;sub&quot;),
-        '*' =&gt; return String::from(&quot;mul&quot;),
-        '/' =&gt; return String::from(&quot;div&quot;),
-        _ =&gt; panic!(&quot;Invalid operator '{}'&quot;, ch),
     }
 }
 
 pub fn main() {
-    let mut out = vec![];
-    let exp = b&quot;2/(7-3)&quot;;
+    let mut infix = String::from(&quot;2+3&quot;);
+    let mut postfix = String::new();
+    let mut intr = Interpreter::new(&amp;infix);
+    intr.interpret(&amp;mut postfix);
+    assert_eq!(postfix, &quot;23+&quot;);
 
-    single_expr(exp, &amp;mut out);
-    assert_eq!(
-        out,
-        vec![
-            &quot;push 2&quot;,
-            &quot;push 7&quot;,
-            &quot;push 3&quot;,
-            &quot;pop ebx&quot;,
-            &quot;pop eax&quot;,
-            &quot;sub eax, ebx&quot;,
-            &quot;push eax&quot;,
-            &quot;pop ebx&quot;,
-            &quot;pop eax&quot;,
-            &quot;div eax, ebx&quot;,
-            &quot;push eax&quot;,
-        ]
-    );
+    infix = String::from(&quot;1-2+3-4&quot;);
+    postfix = String::new();
+    intr = Interpreter::new(&amp;infix);
+    intr.interpret(&amp;mut postfix);
+
+    assert_eq!(postfix, &quot;12-3+4-&quot;);
 }
 </code></pre></pre>
 <h2><a class="header" href="#solution-2" id="solution-2">Solution 2</a></h2>
 <p>The second approach is using Rust's <code>macro_rules!</code>. We simply define rules and
 leave the rest to Rust's interpretation of these rules wich converts a given
-expression into corresponding assembly code. However, we have to make compromises
-on the input syntax to make using standard repetitions of <code>macro_rules!</code> more
-tractable. In the following example, we have to write <code>(2 * 3) - 5</code> instead
-of <code>2 * 3 - 5</code>.</p>
+expression into corresponding assembly code.</p>
 <pre><pre class="playground"><code class="language-rust edition2018">fn print_op(op: &amp;str) {
     println!(&quot;pop ebx&quot;);
     println!(&quot;pop eax&quot;);
