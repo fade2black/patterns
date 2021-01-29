@@ -2038,16 +2038,16 @@ operations <code>+, -</code>. For example, the expression <code>2 + 4</code> is 
 <p>In order to understand the Interpreter pattern you need to know a little bit
 about formal language theory. If you already know what a grammar is feel free
 to skip this section, otherwise fasten your seat belts.</p>
-<p>Basicaly, a <a href="https://en.wikipedia.org/wiki/Context-free_grammar">Context Free Grammar</a>
-(CFG) defines a set of rules that describe all possible strings over some finite
+<p>Basicaly, a <a href="https://en.wikipedia.org/wiki/Context-free_grammar">Context Free Grammar (CFG)</a>
+defines a set of rules that describe all possible strings over some finite
 set of symbols, formally called alphabet. These strings usually have some well
 defined structure. For example, strings of all balanced parentheses:</p>
 <pre><code class="language-ignore">(), (()), ()(), ()(()), ..
 </code></pre>
-<p>Formally a CFG consists of terminal symbols, nonterminal symbols, a start (nonterminal)
-symbol, and production rules.</p>
+<p>Formally a CFG consists of terminal symbols, non-terminal symbols, a start
+(non-terminal) symbol, and production rules.</p>
 <p>In the previous example we have two terminal symbols <code>(</code> and <code>)</code>. We define a
-single nonterminal (at the same time the start) symbol <code>S</code> and production rules
+single non-terminal (at the same time the start) symbol <code>S</code> and production rules
 as:</p>
 <pre><code class="language-ignore">S -&gt; SS
 S -&gt; (S)
@@ -2063,7 +2063,7 @@ define a context free grammar for a set of infix expressions over <code>0,...,9,
 where:</p>
 <ul>
 <li>terminal symbols: <code>0,...,9, +,-</code></li>
-<li>nonterminal symbols: <code>exp, term</code></li>
+<li>non-terminal symbols: <code>exp, term</code></li>
 <li>start symbol is <code>exp</code></li>
 <li>and the following are production rules</li>
 </ul>
