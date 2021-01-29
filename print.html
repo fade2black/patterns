@@ -2081,8 +2081,9 @@ to do with it. For example, we might need to remove left recursion.
 For more details please see <a href="https://en.wikipedia.org/wiki/Compilers:_Principles,_Techniques,_and_Tools">Compilers: Principles, Techniques, and Tools</a>
 (aka Dragon Book).</p>
 <h2><a class="header" href="#solution" id="solution">Solution</a></h2>
-<p>We simply implement a recursive descent parser. The code panics when an expression
-is syntactically wrong (for exmple <code>2-34</code> or <code>2+5-</code> are wrong according to the
+<p>We simply implement a recursive descent parser.
+For simplicity's sake, the code panics when an expression
+is syntactically wrong (for example <code>2-34</code> or <code>2+5-</code> are wrong according to the
 grammar definition).</p>
 <pre><pre class="playground"><code class="language-rust edition2018">pub struct Interpreter&lt;'a&gt; {
     it: std::str::Chars&lt;'a&gt;,
