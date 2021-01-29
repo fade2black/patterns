@@ -178,9 +178,8 @@ instances.</p>
 <h2><a class="header" href="#motivation" id="motivation">Motivation</a></h2>
 <p>Our goal is translate simple mathematical expressions into
 postfix expressions (or <a href="https://en.wikipedia.org/wiki/Reverse_Polish_notation">Reverse Polish notation</a>)
-For simplicity, our expressions consists of ten digits <code>0</code>,...,<code>9</code>
-and two operations <code>+, -</code>.
-For example, the expression <code>2 + 4</code> is translated into <code>2 4 +</code>.</p>
+For simplicity, our expressions consists of ten digits <code>0</code>,...,<code>9</code> and two
+operations <code>+, -</code>. For example, the expression <code>2 + 4</code> is translated into <code>2 4  +</code>.</p>
 <h2><a class="header" href="#context-free-grammars" id="context-free-grammars">Context Free Grammars</a></h2>
 <p>In order to understand the Interpreter pattern you need to know a little bit
 about formal language theory. If you already know what a grammar is feel free
@@ -205,9 +204,9 @@ production rules. For example, to derive <code>()()</code> we apply the followin
 <pre><code class="language-ignore">S -&gt; SS -&gt; ()(S) -&gt; ()()
 </code></pre>
 <h2><a class="header" href="#context-free-grammar-for-our-problem" id="context-free-grammar-for-our-problem">Context Free Grammar for our problem</a></h2>
-<p>Recal that our task is translate infix expressions into postfix ones.
-Let's define a context free grammar for a set of infix expressions over
-<code>0,...,9, +,-</code>, where</p>
+<p>Recall that our task is translate infix expressions into postfix ones. Let's
+define a context free grammar for a set of infix expressions over <code>0,...,9, +,-</code>,
+where:</p>
 <ul>
 <li>terminal symbols: <code>0,...,9, +,-</code></li>
 <li>nonterminal symbols: <code>exp, term</code></li>
@@ -224,13 +223,15 @@ to do with the grammar. For example, we might need to remove left recursion.
 For more details please see <a href="https://en.wikipedia.org/wiki/Compilers:_Principles,_Techniques,_and_Tools">Compilers:Principles,Techniques, and Tools</a>
 (aka Dragon Book).</p>
 <h2><a class="header" href="#solution" id="solution">Solution</a></h2>
-<p>We simply implement a recursive descent
-parser. The code panics when an expression is syntactically wrong
-(for exmple <code>2-34</code> or <code>2+5-</code> are wrong according to the grammar definition).</p>
+<p>We simply implement a recursive descent parser. The code panics when an expression
+is syntactically wrong (for exmple <code>2-34</code> or <code>2+5-</code> are wrong according to the
+grammar definition).</p>
 <pre><pre class="playground"><code class="language-rust edition2018">struct Interpreter&lt;'a&gt; {
     it: std::str::Chars&lt;'a&gt;,
 }
+
 impl&lt;'a&gt; Interpreter&lt;'a&gt; {
+
     pub fn new(infix: &amp;'a String) -&gt; Self {
         Self { it: infix.chars() }
     }
