@@ -2091,7 +2091,7 @@ grammar definition).</p>
 
 impl&lt;'a&gt; Interpreter&lt;'a&gt; {
 
-    pub fn new(infix: &amp;'a String) -&gt; Self {
+    pub fn new(infix: &amp;'a str) -&gt; Self {
         Self { it: infix.chars() }
     }
 
