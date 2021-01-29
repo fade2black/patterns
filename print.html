@@ -2135,6 +2135,8 @@ pub fn main() {
     assert_eq!(postfix, &quot;12-3+4-&quot;);
 }
 </code></pre></pre>
+<h2><a class="header" href="#discussion-10" id="discussion-10">Discussion</a></h2>
+<p>WIP</p>
 <h2><a class="header" href="#see-also-11" id="see-also-11">See also</a></h2>
 <ul>
 <li><a href="https://en.wikipedia.org/wiki/Interpreter_pattern">Interpreter pattern</a></li>
@@ -2206,7 +2208,7 @@ is no special language support. This means there can be <em>a lot</em> of boiler
 You need a 'pass through' method for every method you want to expose on the
 wrapped type, and an impl for every trait you want to also be implemented for
 the wrapper type.</p>
-<h2><a class="header" href="#discussion-10" id="discussion-10">Discussion</a></h2>
+<h2><a class="header" href="#discussion-11" id="discussion-11">Discussion</a></h2>
 <p>Newtypes are very common in Rust code. Abstraction or representing units are the
 most common uses, but they can be used for other reasons:</p>
 <ul>
@@ -2301,7 +2303,7 @@ this pattern can be used to prevent such errors.</p>
 <h2><a class="header" href="#advantages-17" id="advantages-17">Advantages</a></h2>
 <p>Prevents errors where a resource is not finalised and where a resource is used
 after finalisation.</p>
-<h2><a class="header" href="#discussion-11" id="discussion-11">Discussion</a></h2>
+<h2><a class="header" href="#discussion-12" id="discussion-12">Discussion</a></h2>
 <p>RAII is a useful pattern for ensuring resources are properly deallocated or
 finalised. We can make use of the borrow checker in Rust to statically prevent
 errors stemming from using resources after finalisation takes place.</p>
@@ -2460,7 +2462,7 @@ trait and method to implement, i.e,<code>Formatter</code> and <code>run</code>.<
 <p>For each strategy there must be implemented at least one module, so number of modules
 increases with number of strategies. If there are many strategies to choose from
 then users have to know how strategies differ from one another.</p>
-<h2><a class="header" href="#discussion-12" id="discussion-12">Discussion</a></h2>
+<h2><a class="header" href="#discussion-13" id="discussion-13">Discussion</a></h2>
 <p>In the previous example all strategies are implemented in a single file.
 Ways of providing different strategies includes:</p>
 <ul>
@@ -2621,7 +2623,7 @@ to modify the AST data.</p>
 heterogeneous data. If data is homogeneous, you can use an iterator-like pattern.
 Using a visitor object (rather than a functional approach) allows the visitor to
 be stateful and thus communicate information between nodes.</p>
-<h2><a class="header" href="#discussion-13" id="discussion-13">Discussion</a></h2>
+<h2><a class="header" href="#discussion-14" id="discussion-14">Discussion</a></h2>
 <p>It is common for the <code>visit_*</code> methods to return void (as opposed to in the
 example). In that case it is possible to factor out the traversal code and share
 it between algorithms (and also to provide noop default methods). In Rust, the
@@ -2817,7 +2819,7 @@ pattern it will be the 'class' where the method is defined.</p>
 interfaces, class-based privacy, or other inheritance-related features. So, it
 gives an experience that will be subtly surprising to programmers used to Java
 inheritance, etc.</p>
-<h2><a class="header" href="#discussion-14" id="discussion-14">Discussion</a></h2>
+<h2><a class="header" href="#discussion-15" id="discussion-15">Discussion</a></h2>
 <p>There is no one good alternative. Depending on the exact circumstances it might
 be better to re-implement using traits or to write out the facade methods to
 dispatch to <code>Foo</code> manually. We do intend to add a mechanism for inheritance
