@@ -183,7 +183,8 @@ Basically, for any kind of problems we define:</p>
 <p>Our goal is to translate simple mathematical expressions into
 postfix expressions (or <a href="https://en.wikipedia.org/wiki/Reverse_Polish_notation">Reverse Polish notation</a>)
 For simplicity, our expressions consist of ten digits <code>0</code>, ..., <code>9</code> and two
-operations <code>+</code>, <code>-</code>. For example, the expression <code>2 + 4</code> is translated into <code>2 4  +</code>.</p>
+operations <code>+</code>, <code>-</code>. For example,
+the expression <code>2 + 4</code> is translated into <code>2 4  +</code>.</p>
 <h2><a class="header" href="#context-free-grammars" id="context-free-grammars">Context Free Grammars</a></h2>
 <p>In order to understand the Interpreter pattern you need to know a little bit
 about formal language theory. If you already know what a grammar is feel free
@@ -209,7 +210,8 @@ production rules. For example, to derive <code>()()</code> we apply the followin
 </code></pre>
 <h2><a class="header" href="#context-free-grammar-for-our-problem" id="context-free-grammar-for-our-problem">Context Free Grammar for our problem</a></h2>
 <p>Recall that our task is translate infix expressions into postfix ones. Let's
-define a context free grammar for a set of infix expressions over <code>0</code>, ..., <code>9</code>, <code>+</code>, and <code>-</code>,
+define a context free grammar for a set of infix expressions
+over <code>0</code>, ..., <code>9</code>, <code>+</code>, and <code>-</code>,
 where:</p>
 <ul>
 <li>terminal symbols: <code>0</code>, ..., <code>9</code>, <code>+</code>, <code>-</code></li>
@@ -224,7 +226,9 @@ term -&gt; 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
 </code></pre>
 <p>In fact this grammar should be further transformed depending on what we are going
 to do with it. For example, we might need to remove left recursion.
-For more details please see <a href="https://en.wikipedia.org/wiki/Compilers:_Principles,_Techniques,_and_Tools">Compilers: Principles, Techniques, and Tools</a>
+For more details please see
+<a href="https://en.wikipedia.org/wiki/Compilers:_Principles,_Techniques,_and_Tools">Compilers: Principles,Techniques, and Tools
+</a>
 (aka Dragon Book).</p>
 <h2><a class="header" href="#solution" id="solution">Solution</a></h2>
 <p>We simply implement a recursive descent parser.
