@@ -2078,7 +2078,7 @@ to do with the grammar. For example, we might need to remove left recursion.
 For more details please see <a href="https://en.wikipedia.org/wiki/Compilers:_Principles,_Techniques,_and_Tools">Compilers:Principles,Techniques, and Tools</a>
 (aka Dragon Book).</p>
 <h2><a class="header" href="#solution" id="solution">Solution</a></h2>
-<p>Our first approach is a standard one, simple implementation of a recursive descent
+<p>We simply implement of a recursive descent
 parser. The code panics when an expression is syntactically wrong
 (for exmple <code>2-34</code> or <code>2+5-</code> are wrong according to the grammar definition).</p>
 <pre><pre class="playground"><code class="language-rust edition2018">struct Interpreter&lt;'a&gt; {
