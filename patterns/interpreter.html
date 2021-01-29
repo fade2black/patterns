@@ -296,13 +296,13 @@ be easier to express and more efficient
 than packing <code>x,1,2</code> into a <code>Vec</code>
 and calling a function computing the length.</p>
 <pre><pre class="playground"><code class="language-rust edition2018">macro_rules! norm {
-	($($element:expr),*) =&gt; {
-		{
-			let mut n = 0.0;
-			$(
-				n += ($element as f64)*($element as f64);
-			)*
-			n.sqrt()
+    ($($element:expr),*) =&gt; {
+        {
+            let mut n = 0.0;
+            $(
+                n += ($element as f64)*($element as f64);
+            )*
+            n.sqrt()
 		}
 	};
 }
