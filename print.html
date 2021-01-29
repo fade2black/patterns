@@ -2129,7 +2129,7 @@ pub fn main() {
     assert_eq!(postfix, &quot;23+&quot;);
 
     infix = String::from(&quot;1-2+3-4&quot;);
-    postfix = String::new();
+    postfix.clear();
     intr = Interpreter::new(&amp;infix);
     intr.interpret(&amp;mut postfix);
     assert_eq!(postfix, &quot;12-3+4-&quot;);
