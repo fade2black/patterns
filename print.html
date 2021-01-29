@@ -2081,7 +2081,7 @@ For more details please see <a href="https://en.wikipedia.org/wiki/Compilers:_Pr
 <p>We simply implement a recursive descent parser. The code panics when an expression
 is syntactically wrong (for exmple <code>2-34</code> or <code>2+5-</code> are wrong according to the
 grammar definition).</p>
-<pre><pre class="playground"><code class="language-rust edition2018">struct Interpreter&lt;'a&gt; {
+<pre><pre class="playground"><code class="language-rust edition2018">pub struct Interpreter&lt;'a&gt; {
     it: std::str::Chars&lt;'a&gt;,
 }
 
