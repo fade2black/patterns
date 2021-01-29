@@ -282,11 +282,46 @@ pub fn main() {
 }
 </code></pre></pre>
 <h2><a class="header" href="#discussion" id="discussion">Discussion</a></h2>
-<p>WIP</p>
+<p>There may be a wrong perception that the Interpreter design pattern
+is about design grammars for formal languages and implementation
+of parsers for these grammars. In fact, this pattern is about expressing
+problem instances in a more specific way and implementing
+functions/classes/structs solving these problem instances.
+Rust language has <code>macro_rules!</code> that allows to define special
+syntax and rules how to expand this syntax into source code.</p>
+<p>In the following example we create a simple <code>macro_rules!</code> that computes
+<a href="https://en.wikipedia.org/wiki/Euclidean_distance">Euclidean length</a>
+of <code>n</code> dimensional vectors. Writing <code>norm!(x,1,2)</code> might
+be easier to express and more efficient
+than packing <code>x,1,2</code> into a <code>Vec</code>
+and calling a function computing the length.</p>
+<pre><pre class="playground"><code class="language-rust edition2018">macro_rules! norm {
+	($($element:expr),*) =&gt; {
+		{
+			let mut n = 0.0;
+			$(
+				n += ($element as f64)*($element as f64);
+			)*
+			n.sqrt()
+		}
+	};
+}
+
+fn main() {
+    let x = -3f64;
+    let y = 4f64;
+
+    assert_eq!(3f64, norm!(x));
+    assert_eq!(5f64, norm!(x, y));
+    assert_eq!(0f64, norm!(0, 0, 0)); 
+    assert_eq!(1f64, norm!(0.5, -0.5, 0.5, -0.5));
+}
+</code></pre></pre>
 <h2><a class="header" href="#see-also" id="see-also">See also</a></h2>
 <ul>
 <li><a href="https://en.wikipedia.org/wiki/Interpreter_pattern">Interpreter pattern</a></li>
 <li><a href="https://en.wikipedia.org/wiki/Context-free_grammar">Context free grammar</a></li>
+<li><a href="https://doc.rust-lang.org/rust-by-example/macros.html">macro_rules!</a></li>
 </ul>
 
                     </main>
