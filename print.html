@@ -2099,15 +2099,11 @@ impl&lt;'a&gt; Interpreter&lt;'a&gt; {
         Self { it: infix.chars() }
     }
 
-    pub fn interpret(&amp;mut self, out: &amp;mut String) {
-        self.exp(out);
-    }
-
     fn next_char(&amp;mut self) -&gt; Option&lt;char&gt; {
         self.it.next()
     }
 
-    fn exp(&amp;mut self, out: &amp;mut String) {
+    pub fn interpret(&amp;mut self, out: &amp;mut String) {
         self.term(out);
 
         while let Some(op) = self.next_char() {
