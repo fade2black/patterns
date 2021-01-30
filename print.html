@@ -2026,8 +2026,8 @@ one.</p>
 <p>If a problem occurs very often and requires long and repetitive steps to solve
 it, then the problem instances might be expressed in a simple language and an
 interpreter object could solve it by interpreting the sentences written in this
-simple language.
-Basically, for any kind of problems we define:</p>
+simple language.</p>
+<p>Basically, for any kind of problems we define:</p>
 <ul>
 <li>a <a href="https://en.wikipedia.org/wiki/Domain-specific_language">domain specific language</a>,</li>
 <li>a grammar for this language</li>
@@ -2064,9 +2064,8 @@ production rules. For example, to derive <code>()()</code> we apply the followin
 </code></pre>
 <h2><a class="header" href="#context-free-grammar-for-our-problem" id="context-free-grammar-for-our-problem">Context Free Grammar for our problem</a></h2>
 <p>Recall that our task is translate infix expressions into postfix ones. Let's
-define a context free grammar for a set of infix expressions
-over <code>0</code>, ..., <code>9</code>, <code>+</code>, and <code>-</code>,
-where:</p>
+define a context free grammar for a set of infix expressions over <code>0</code>, ...,
+<code>9</code>, <code>+</code>, and <code>-</code>, where:</p>
 <ul>
 <li>terminal symbols: <code>0</code>, ..., <code>9</code>, <code>+</code>, <code>-</code></li>
 <li>non-terminal symbols: <code>exp</code>, <code>term</code></li>
@@ -2079,16 +2078,14 @@ exp -&gt; term
 term -&gt; 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
 </code></pre>
 <p>In fact this grammar should be further transformed depending on what we are going
-to do with it. For example, we might need to remove left recursion.
-For more details please see
-<a href="https://en.wikipedia.org/wiki/Compilers:_Principles,_Techniques,_and_Tools">Compilers: Principles,Techniques, and Tools
+to do with it. For example, we might need to remove left recursion. For more
+details please see <a href="https://en.wikipedia.org/wiki/Compilers:_Principles,_Techniques,_and_Tools">Compilers: Principles,Techniques, and Tools
 </a>
 (aka Dragon Book).</p>
 <h2><a class="header" href="#solution" id="solution">Solution</a></h2>
-<p>We simply implement a recursive descent parser.
-For simplicity's sake, the code panics when an expression
-is syntactically wrong (for example <code>2-34</code> or <code>2+5-</code> are wrong according to the
-grammar definition).</p>
+<p>We simply implement a recursive descent parser. For simplicity's sake, the code
+panics when an expression is syntactically wrong (for example <code>2-34</code> or <code>2+5-</code>
+are wrong according to the grammar definition).</p>
 <pre><pre class="playground"><code class="language-rust edition2018">pub struct Interpreter&lt;'a&gt; {
     it: std::str::Chars&lt;'a&gt;,
 }
@@ -2138,19 +2135,17 @@ pub fn main() {
 }
 </code></pre></pre>
 <h2><a class="header" href="#discussion-10" id="discussion-10">Discussion</a></h2>
-<p>There may be a wrong perception that the Interpreter design pattern
-is about design grammars for formal languages and implementation
-of parsers for these grammars. In fact, this pattern is about expressing
-problem instances in a more specific way and implementing
-functions/classes/structs solving these problem instances.
-Rust language has <code>macro_rules!</code> that allow to define special
-syntax and rules on how to expand this syntax into source code.</p>
+<p>There may be a wrong perception that the Interpreter design pattern is about design
+grammars for formal languages and implementation of parsers for these grammars.
+In fact, this pattern is about expressing problem instances in a more specific
+way and implementing functions/classes/structs that solve these problem instances.
+Rust language has <code>macro_rules!</code> that allow to define special syntax and rules
+on how to expand this syntax into source code.</p>
 <p>In the following example we create a simple <code>macro_rules!</code> that computes
-<a href="https://en.wikipedia.org/wiki/Euclidean_distance">Euclidean length</a>
-of <code>n</code> dimensional vectors. Writing <code>norm!(x,1,2)</code> might
-be easier to express and more efficient
-than packing <code>x,1,2</code> into a <code>Vec</code>
-and calling a function computing the length.</p>
+<a href="https://en.wikipedia.org/wiki/Euclidean_distance">Euclidean length</a> of <code>n</code>
+dimensional vectors. Writing <code>norm!(x,1,2)</code> might be easier to express and more
+efficient than packing <code>x,1,2</code> into a <code>Vec</code> and calling a function computing
+the length.</p>
 <pre><pre class="playground"><code class="language-rust edition2018">macro_rules! norm {
     ($($element:expr),*) =&gt; {
         {
