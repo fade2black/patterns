@@ -276,14 +276,12 @@ impl&lt;'a&gt; Interpreter&lt;'a&gt; {
 }
 
 pub fn main() {
-    let infix = String::from(&quot;2+3&quot;);
-    let mut intr = Interpreter::new(&amp;infix);
+    let mut intr = Interpreter::new(&quot;2+3&quot;);
     let mut postfix = String::new();
     intr.interpret(&amp;mut postfix);
     assert_eq!(postfix, &quot;23+&quot;);
 
-    let infix = String::from(&quot;1-2+3-4&quot;);
-    intr = Interpreter::new(&amp;infix);
+    intr = Interpreter::new(&quot;1-2+3-4&quot;);
     postfix.clear();
     intr.interpret(&amp;mut postfix);
     assert_eq!(postfix, &quot;12-3+4-&quot;);
