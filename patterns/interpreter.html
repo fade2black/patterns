@@ -185,31 +185,8 @@ postfix expressions (or <a href="https://en.wikipedia.org/wiki/Reverse_Polish_no
 For simplicity, our expressions consist of ten digits <code>0</code>, ..., <code>9</code> and two
 operations <code>+</code>, <code>-</code>. For example,
 the expression <code>2 + 4</code> is translated into <code>2 4  +</code>.</p>
-<h2><a class="header" href="#context-free-grammars" id="context-free-grammars">Context Free Grammars</a></h2>
-<p>In order to understand the Interpreter pattern you need to know a little bit
-about formal language theory. If you already know what a grammar is feel free
-to skip this section, otherwise fasten your seat belts.</p>
-<p>Basically, a <a href="https://en.wikipedia.org/wiki/Context-free_grammar">Context Free Grammar (CFG)</a>
-defines a set of rules that describe all possible strings over some finite
-set of symbols, formally called alphabet. These strings usually have some well
-defined structure. For example, strings of all balanced parentheses:</p>
-<pre><code class="language-ignore">(), (()), ()(), ()(()), ..
-</code></pre>
-<p>Formally a CFG consists of terminal symbols, non-terminal symbols, a start
-(non-terminal) symbol, and production rules.</p>
-<p>In the previous example we have two terminal symbols <code>(</code> and <code>)</code>. We define a
-single non-terminal (at the same time the start) symbol <code>S</code> and production rules
-as:</p>
-<pre><code class="language-ignore">S -&gt; SS
-S -&gt; (S)
-S -&gt; ()
-</code></pre>
-<p>So, in order to generate a string with balanced parentheses we repeatedly apply
-production rules. For example, to derive <code>()()</code> we apply the following rules:</p>
-<pre><code class="language-ignore">S -&gt; SS -&gt; ()(S) -&gt; ()()
-</code></pre>
 <h2><a class="header" href="#context-free-grammar-for-our-problem" id="context-free-grammar-for-our-problem">Context Free Grammar for our problem</a></h2>
-<p>Recall that our task is translate infix expressions into postfix ones. Let's
+<p>Our task is translate infix expressions into postfix ones. Let's
 define a context free grammar for a set of infix expressions over <code>0</code>, ...,
 <code>9</code>, <code>+</code>, and <code>-</code>, where:</p>
 <ul>
