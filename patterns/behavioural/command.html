@@ -356,7 +356,13 @@ then using function pointers might be preferable since it does not exploit
 dynamic dispatch. But if our command is a whole struct with a bunch of functions
 and variables defined as seperate module then using trait objects would be
 more suitable. A case of application can be found in <a href="https://actix.rs/"><code>actix</code></a>,
-which uses trait objects when it registers a handler function for routes.</p>
+which uses trait objects when it registers a handler function for routes.
+In case of using <code>Fn</code> trait objects we can create and use commands
+in the same way as we used in case of function pointers.
+As performance, there is always a trade-off between performance and
+code simplicity and organisation. Static dispatch gives faster performance,
+while dynamics dispatch provides flexibility when we structure
+our application.</p>
 <h2 id="see-also"><a class="header" href="#see-also">See also</a></h2>
 <ul>
 <li>
