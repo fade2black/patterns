@@ -169,35 +169,25 @@
                     <main>
                         <h1 id="command"><a class="header" href="#command">Command</a></h1>
 <h2 id="description"><a class="header" href="#description">Description</a></h2>
-<p>The basic idea of the Command pattern is to separate
-out actions into its own objects and pass them
-as parameters.</p>
+<p>The basic idea of the Command pattern is to separate out actions into its own
+objects and pass them as parameters.</p>
 <h2 id="motivation"><a class="header" href="#motivation">Motivation</a></h2>
-<p>Suppose we have a sequence of actions or transactions
-encapsulated as objects.
-We want these actions or commands to be
-executed or invoked in some order later at different time.
-These commands may also be triggered as a result
-of some event. For example, when a user pushes a button,
-or on arrival of a data packet.
-In addition, these commands might be be undoable.
-This may come in useful for operations of an editor.
-We might want to store logs of executed commands
-so that we could reapply the changes later if the system crashes.</p>
+<p>Suppose we have a sequence of actions or transactions encapsulated as objects.
+We want these actions or commands to be executed or invoked in some order later
+at different time. These commands may also be triggered as a result of some event.
+For example, when a user pushes a button, or on arrival of a data packet.
+In addition, these commands might be be undoable. This may come in useful for
+operations of an editor. We might want to store logs of executed commands so that
+we could reapply the changes later if the system crashes.</p>
 <h2 id="example"><a class="header" href="#example">Example</a></h2>
-<p>Define two database operations
-<code>create table</code> and <code>add field</code>.
-Each of these operations is a command
-which knows how to undo the command, e.g.,
-<code>drop table</code> and <code>remove field</code>.
-When a user invokes a database migration
-operation then each command is executed in the defined order,
-and when the user invokes the rollback operation
-then the whole set of commands is invoked in reverse order.</p>
+<p>Define two database operations <code>create table</code> and <code>add field</code>. Each of these
+operations is a command which knows how to undo the command, e.g., <code>drop table</code>
+and <code>remove field</code>. When a user invokes a database migration operation then each
+command is executed in the defined order, and when the user invokes the rollback
+operation then the whole set of commands is invoked in reverse order.</p>
 <h2 id="approach-using-trait-objects"><a class="header" href="#approach-using-trait-objects">Approach: Using trait objects</a></h2>
-<p>We define a common trait which encapsulates our command
-with two operations <code>execute</code> and <code>rollback</code>. All command
-<code>structs</code> must implement this trait.</p>
+<p>We define a common trait which encapsulates our command with two operations
+<code>execute</code> and <code>rollback</code>. All command <code>structs</code> must implement this trait.</p>
 <pre><pre class="playground"><code class="language-rust edition2018">pub trait Migration {
     fn execute(&amp;self) -&gt; &amp;str;
     fn rollback(&amp;self) -&gt; &amp;str;
@@ -261,13 +251,11 @@ fn main() {
 }
 </code></pre></pre>
 <h2 id="approach-using-function-pointers"><a class="header" href="#approach-using-function-pointers">Approach: Using function pointers</a></h2>
-<p>We could follow another solution by
-creating each individual command as
-a different function and store function pointers
-to invoke these functions later at a different time.
-Since function pointers implement all three traits
-<code>Fn</code>, <code>FnMut</code>, and <code>FnOnce</code> we could as well pass and store
-closures instead of function pointers.</p>
+<p>We could follow another solution by creating each individual command as
+a different function and store function pointers to invoke these functions later
+at a different time. Since function pointers implement all three traits <code>Fn</code>,
+<code>FnMut</code>, and <code>FnOnce</code> we could as well pass and store closures instead of
+function pointers.</p>
 <pre><pre class="playground"><code class="language-rust edition2018">type FnPtr&lt;'a&gt; = fn() -&gt; &amp;'a str;
 struct Command&lt;'a&gt; {
     execute: FnPtr&lt;'a&gt;,
@@ -314,9 +302,8 @@ fn main() {
 }
 </code></pre></pre>
 <h2 id="approach-using-fn-trait-objects"><a class="header" href="#approach-using-fn-trait-objects">Approach: Using <code>Fn</code> trait objects</a></h2>
-<p>Finally, instead of defining a common command
-trait we could store each command implementing
-the <code>Fn</code> trait separately in vectors.</p>
+<p>Finally, instead of defining a common command trait we could store
+each command implementing the <code>Fn</code> trait separately in vectors.</p>
 <pre><pre class="playground"><code class="language-rust edition2018">type Migration&lt;'a&gt; = Box&lt;dyn Fn() -&gt; &amp;'a str&gt;;
 
 struct Schema&lt;'a&gt; {
@@ -364,16 +351,12 @@ fn main() {
 }
 </code></pre></pre>
 <h2 id="discussion"><a class="header" href="#discussion">Discussion</a></h2>
-<p>If our commands are small and may be defined
-as functions or passed as a closure then using
-function pointers might be preferable since it
-does not exploit dynamic dispatch.
-But if our command is a whole struct with a bunch
-of functions and variables defined as seperate module
-then using trait objects would be more suitable.
-A case of application can be found in <a href="https://actix.rs/"><code>actix</code></a>,
-which uses trait objects when it registers a handler function
-for routes.</p>
+<p>If our commands are small and may be defined as functions or passed as a closure
+then using function pointers might be preferable since it does not exploit
+dynamic dispatch. But if our command is a whole struct with a bunch of functions
+and variables defined as seperate module then using trait objects would be
+more suitable. A case of application can be found in <a href="https://actix.rs/"><code>actix</code></a>,
+which uses trait objects when it registers a handler function for routes.</p>
 <h2 id="see-also"><a class="header" href="#see-also">See also</a></h2>
 <ul>
 <li>
