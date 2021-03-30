@@ -251,7 +251,7 @@ fn main() {
 }
 </code></pre></pre>
 <h2 id="approach-using-function-pointers"><a class="header" href="#approach-using-function-pointers">Approach: Using function pointers</a></h2>
-<p>We could follow another solution by creating each individual command as
+<p>We could follow another approach by creating each individual command as
 a different function and store function pointers to invoke these functions later
 at a different time. Since function pointers implement all three traits <code>Fn</code>,
 <code>FnMut</code>, and <code>FnOnce</code> we could as well pass and store closures instead of
