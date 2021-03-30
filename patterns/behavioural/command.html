@@ -256,27 +256,27 @@ a different function and store function pointers to invoke these functions later
 at a different time. Since function pointers implement all three traits <code>Fn</code>,
 <code>FnMut</code>, and <code>FnOnce</code> we could as well pass and store closures instead of
 function pointers.</p>
-<pre><pre class="playground"><code class="language-rust edition2018">type FnPtr&lt;'a&gt; = fn() -&gt; &amp;'a str;
-struct Command&lt;'a&gt; {
-    execute: FnPtr&lt;'a&gt;,
-    rollback: FnPtr&lt;'a&gt;,
+<pre><pre class="playground"><code class="language-rust edition2018">type FnPtr = fn() -&gt; String;
+struct Command {
+    execute: FnPtr,
+    rollback: FnPtr,
 }
 
-struct Schema&lt;'a&gt; {
-    commands: Vec&lt;Command&lt;'a&gt;&gt;,
+struct Schema {
+    commands: Vec&lt;Command&gt;,
 }
 
-impl&lt;'a&gt; Schema&lt;'a&gt; {
+impl Schema {
     fn new() -&gt; Self {
         Self { commands: vec![] }
     }
-    fn add_migration(&amp;mut self, execute: FnPtr&lt;'a&gt;, rollback: FnPtr&lt;'a&gt;) {
+    fn add_migration(&amp;mut self, execute: FnPtr, rollback: FnPtr) {
         self.commands.push(Command { execute, rollback });
     }
-    fn execute(&amp;self) -&gt; Vec&lt;&amp;str&gt; {
+    fn execute(&amp;self) -&gt; Vec&lt;String&gt; {
         self.commands.iter().map(|cmd| (cmd.execute)()).collect()
     }
-    fn rollback(&amp;self) -&gt; Vec&lt;&amp;str&gt; {
+    fn rollback(&amp;self) -&gt; Vec&lt;String&gt; {
         self.commands
             .iter()
             .rev()
@@ -285,17 +285,17 @@ impl&lt;'a&gt; Schema&lt;'a&gt; {
     }
 }
 
-fn add_field() -&gt; &amp;'static str {
-    &quot;add field&quot;
+fn add_field() -&gt; String {
+    &quot;add field&quot;.to_string()
 }
 
-fn remove_field() -&gt; &amp;'static str {
-    &quot;remove field&quot;
+fn remove_field() -&gt; String {
+    &quot;remove field&quot;.to_string()
 }
 
 fn main() {
     let mut schema = Schema::new();
-    schema.add_migration(|| &quot;create table&quot;, || &quot;drop table&quot;);
+    schema.add_migration(|| &quot;create table&quot;.to_string(), || &quot;drop table&quot;.to_string());
     schema.add_migration(add_field, remove_field);
     assert_eq!(vec![&quot;create table&quot;, &quot;add field&quot;], schema.execute());
     assert_eq!(vec![&quot;remove field&quot;, &quot;drop table&quot;], schema.rollback());
