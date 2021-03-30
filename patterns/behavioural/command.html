@@ -263,7 +263,7 @@ struct Command&lt;'a&gt; {
 }
 
 struct Schema&lt;'a&gt; {
-    commands: Vec&lt;Box&lt;Command&lt;'a&gt;&gt;&gt;,
+    commands: Vec&lt;Command&lt;'a&gt;&gt;,
 }
 
 impl&lt;'a&gt; Schema&lt;'a&gt; {
